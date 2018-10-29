@@ -20,7 +20,6 @@ app.set('port', process.env.PORT || 3000 );
  * HTTP request GET listening in app.get function
  */
 app.get('/pugger', (req, res) => {
-  console.log(req.query.header)
   res.render('index', { title: 'Ho mamn' });
 })
 
