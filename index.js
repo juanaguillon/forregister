@@ -1,5 +1,4 @@
 const routes = require('./controller/routes'); 
-const schemas = require('./models/schemas');
 
 
 // Set the source views as publics paths

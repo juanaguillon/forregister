@@ -19,7 +19,7 @@ class Schemas {
     this.allSchemas = {
       userlogin: {
         name: String,
-        psw: String,
+        password: String,
         lastLogin: {
           type: Date, 
           default: Date.now },
@@ -35,9 +35,8 @@ class Schemas {
    * @param {string} modelName -Pass for the name of model
    * @param {Mongoose.Schema} schemaReported - Get the current schema pre-instanced, It can be returned by the getSchema method                         
    */
-  getModel( modelName, schemaReported ){
-    
-    return new mongod.model( modelName , schemaReported );
+  getModel( modelName, schemaReported ){    
+    return mongod.model( modelName , schemaReported );
   }
 
   /**
