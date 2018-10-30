@@ -1,7 +1,6 @@
 const routes = require('./controller/routes'); 
-const schemas = require('./models/connect');
+const schemas = require('./models/schemas');
 
-schemas.create();
 
 // Set the source views as publics paths
 // Remembering that, the routes is the module routes exporting.
