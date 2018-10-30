@@ -2,10 +2,10 @@ const model = require('./models/schemas');
 
 class RouterFunctions {
   
-  registerUser( ){
-    let userModel = model.getModel( "user", model.getSchema('userlogin') )
+  registerUser( req, res ){
+    let userModel = model.getModel('user')
     let user = new userModel({
-      name: 'Juan Aguillon',
+      name: req.query.name,
       email: 'joel@gmail.com',
       password: '1234'
     });
@@ -14,6 +14,7 @@ class RouterFunctions {
       if ( err ) throw new err;
 
       console.log('salvado');
+      res.send({message:"ok"})
     })
   } 
   

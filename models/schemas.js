@@ -20,7 +20,8 @@ class Schemas {
       userlogin: {
         name: String,
         password: String,
-        lastLogin: {
+        passconfirm: String,
+        registerAt: {
           type: Date, 
           default: Date.now },
         email: { 
@@ -28,15 +29,18 @@ class Schemas {
           match: /^[a-zA-Z0-9_\.\-]+@(gmail|outlook|hotmail|yahoo)+\.[a-zA-Z0-9]+$/ }
       }
     }
+
+    this.models = {
+      "user": mongod.model('user', this.getSchema('userlogin') )
+    }
   }
 
   /**
    * Get dynamic model for create a register in DB.
    * @param {string} modelName -Pass for the name of model
-   * @param {Mongoose.Schema} schemaReported - Get the current schema pre-instanced, It can be returned by the getSchema method                         
    */
-  getModel( modelName, schemaReported ){    
-    return mongod.model( modelName , schemaReported );
+  getModel( modelName ){    
+    return this.models[ modelName ]
   }
 
   /**
@@ -45,7 +49,7 @@ class Schemas {
    * @param {string} handle -Unique string for return the schema
    */
   getSchema( handle ){
-    return new mongod.Schema( this.allSchemas[handle] ) ;
+    return new mongod.Schema( this.allSchemas[handle] );
   }
 }
 

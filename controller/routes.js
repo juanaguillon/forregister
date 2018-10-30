@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const routeFunctions = require('../router-functions');
 const app = express();
 const urlEncoded = bodyParser.urlencoded( {extended:false} );
 const json = bodyParser.json();
@@ -19,9 +20,7 @@ app.set('port', process.env.PORT || 3000 );
  * The routes to listen the browser
  * HTTP request GET listening in app.get function
  */
-app.get('/pugger', (req, res) => {
-  res.render('index', { title: 'Ho mamn' });
-})
+app.get('/register', routeFunctions.registerUser );
 
 module.exports = {
   express: express,
