@@ -3,6 +3,7 @@ const model = require('./models/schemas');
 class RouterFunctions {
   
   registerUser( req, res ){
+    res.render( 'register', {title: "Registro de Usuario" } )
     let userModel = model.getModel('user')
     let user = new userModel({
       name: req.query.name,
@@ -12,11 +13,8 @@ class RouterFunctions {
 
     user.save( err => {
       if ( err ) throw new err;
-
-      console.log('salvado');
-      res.send({message:"ok"})
     })
-  } 
+  }   
   
 }
 
