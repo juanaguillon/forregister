@@ -12,7 +12,7 @@ class RouterFunctions {
     });
 
     user.save( err => {
-      if ( err ) throw new err;
+      if ( err ) throw err;
     })
   }   
   
