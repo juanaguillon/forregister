@@ -1,9 +1,5 @@
-const routes = require('./controller/routes'); 
-
-// Set the source views as publics paths
-// Remembering that, the routes is the module routes exporting.
-routes.app.use('/publics', routes.express.static( './views' ) );
-routes.app.use('/publics/semantic/', routes.express.static( './semantic' ) );
+// Import the view paths
+const routes = require('./views-paths');
 
 /**
  * The port to listen the application.
