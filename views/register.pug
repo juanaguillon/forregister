@@ -4,17 +4,22 @@ html(lang="en")
     include globals/head.pug
     
   body
-    .ui.containera
-      .ui.card 
-        img.ui.avatar.image(src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzpZGfeGpYCBiwxxWqV_Qh19i9nRM2oUHA5Tg2QlfMkjTE-vE5")
-        button.ui.button.floated.right My Button
-        .extra.content
-          span.left.floated.like
-            i.like.icon.red 
-            | Like          
-          span.right.floated.star
-            i.star.icon.red
-            span.ui.blue Stars
+    .ui.container.segment.raised.text
+      .ui.form-container
+        form.ui.form
+          .field        
+            lablel First Name
+            input( type="text" name="fname" placeholder="First Name" )
+          .field
+            lablel last Name
+            input( type="text" name="lname" placeholder="Last Name" )
+          .field 
+            .ui.checkbox
+              input(type="checkbox" name="terms")
+              label I agree to the terms and Conditions
+          .field
+            button.ui.button(type="submit") Send
+    
 
     script(src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous")
     script(src="/publics/semantic/out/semantic.min.js")
