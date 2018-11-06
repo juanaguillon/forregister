@@ -6,21 +6,21 @@ html(lang="en")
     include globals/menu.pug
     .ui.container.segment.raised.text
       .ui.form-container
-        form.ui.form
+        form.ui.form#register_form(method="post" action="/register")
           .field        
-            lablel First Name
-            input( type="text" name="fname" placeholder="First Name" )
+            lablel Name
+            input( type="text" name="name" placeholder="Name" )
           .field
-            lablel last Name
-            input( type="text" name="lname" placeholder="Last Name" )
-          .field 
-            .ui.checkbox
-              input(type="checkbox" name="terms")
-              label I agree to the terms and Conditions
+            lablel Email
+            input( type="text" name="email" placeholder="Email" )
+          .field
+            label Password
+            input(type="password", name="password", placeholder="Password")
           .field
             button.ui.button(type="submit") Send
     
 
     script(src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous")
     script(src="/publics/semantic/out/semantic.min.js")
+    script(src="/reload/reload.js")
 

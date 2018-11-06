@@ -4,7 +4,7 @@
   "description": "The node description",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon index.js"
+    "test": "nodemon index.js -e pug,js"
   },
   "author": "Juan Aguillon",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "semantic-ui": "^2.4.2"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "reload": "^2.3.1"
   }
 }

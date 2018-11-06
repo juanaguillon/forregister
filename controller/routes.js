@@ -20,7 +20,8 @@ app.set('port', process.env.PORT || 3000 );
  * The routes to listen the browser
  * HTTP request GET listening in app.get function
  */
-app.get('/register', routeFunctions.registerUser );
+app.get('/register', routeFunctions.renderRegisterUser );
+app.post('/register', routeFunctions.registerUser );
 
 module.exports = {
   express: express,

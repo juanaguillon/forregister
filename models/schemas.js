@@ -17,7 +17,7 @@ class Schemas {
   theProperties( ) {
     
     this.allSchemas = {
-      userlogin: {
+      registerUser: {
         name: String,
         password: String,
         passconfirm: String,
@@ -31,7 +31,7 @@ class Schemas {
     }
 
     this.models = {
-      "user": mongod.model('user', this.getSchema('userlogin') )
+      "registerUser": mongod.model('user', this.getSchema('registerUser') )
     }
   }
 
