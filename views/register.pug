@@ -6,7 +6,7 @@ html(lang="en")
     include globals/menu.pug
     .ui.container.segment.raised.text
       .ui.form-container
-        form.ui.form#register_form(method="post" action="/register")
+        form.ui.form#register_form(method="post")
           .field        
             lablel Name
             input( type="text" name="name" placeholder="Name" )
@@ -17,8 +17,9 @@ html(lang="en")
             label Password
             input(type="password", name="password", placeholder="Password")
           .field
-            button.ui.button(type="submit") Send
+            button.ui.button(type="submit") Sends
     
+    script(src="publics/scripts/ajax-request/register.js")
 
     script(src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous")
     script(src="/publics/semantic/out/semantic.min.js")

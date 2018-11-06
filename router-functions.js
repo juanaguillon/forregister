@@ -17,10 +17,9 @@ class RouterFunctions {
     newUser.save( err => {
       if( err ) throw err;
 
-      console.log( newUser.name );
+      res.status(200).send({stat:true});
     } )
-  }
-  
+  } 
   
 }
 
