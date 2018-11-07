@@ -1,4 +1,3 @@
-const path = require('path');
 const routes = require('./controller/routes'); 
 
 // Set the source views as publics paths
