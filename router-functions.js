@@ -7,6 +7,7 @@ class RouterFunctions {
   }   
 
   registerUser( req, res ){
+    supplu();
     const user = model.getModel( 'registerUser' );
     const newUser = new user({
       name: req.body.name,
