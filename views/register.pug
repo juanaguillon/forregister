@@ -7,17 +7,25 @@ html(lang="en")
     .ui.container.segment.raised.text
       .ui.form-container
         form.ui.form#register_form(method="post")
-          .field        
-            lablel Name
-            input( type="text" name="name" placeholder="Name" )
+          .two.fields
+            .field     
+              lablel Name
+              input#name_field( type="text" name="name" placeholder="Name" )
+            .field    
+              lablel Last Name
+              input#lastname_field( type="text" name="lastname" placeholder="Last Name" )
           .field
             lablel Email
-            input( type="text" name="email" placeholder="Email" )
+            input#email_field( type="text" name="email" placeholder="Email" )
           .field
             label Password
-            input(type="password", name="password", placeholder="Password")
+            input#pass_field(type="password", name="password", placeholder="Password")
+          .field
+            label Confirm Password
+            input#rpass_fiedl(type="password" name="r-password" placeholder="Confirm Password")
           .field
             button.ui.button(type="submit") Sends
+
     
     script(src="publics/scripts/ajax-request/register.js")
 
