@@ -14,6 +14,7 @@ html(lang="en")
             .field    
               lablel Last Name
               input#lastname_field( type="text" name="lastname" placeholder="Last Name" )
+            
           .field
             lablel Email
             input#email_field( type="text" name="email" placeholder="Email" )
@@ -24,12 +25,9 @@ html(lang="en")
             label Confirm Password
             input#rpass_fiedl(type="password" name="r-password" placeholder="Confirm Password")
           .field
-            button.ui.button(type="submit") Sends
-
-    
-    script(src="publics/scripts/ajax-request/register.js")
-
-    script(src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous")
-    script(src="/publics/semantic/out/semantic.min.js")
-    script(src="/reload/reload.js")
+            button.ui.button.fluid.primary(type="submit") Sends
+    //- Load Scripts in body
+    include globals/body-scripts.pug
+          
+   
 
