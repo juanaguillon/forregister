@@ -5,6 +5,10 @@ const routes = require('./controller/routes');
 
 // View Engine
 routes.app.use('/publics', routes.express.static('./views'));
+
+// Scripts JS 
+routes.app.use('/scripts', routes.express.static('./views/scripts') );
+
 // Css Folders
 routes.app.use('/publics/semantic/', routes.express.static('./semantic'));
 

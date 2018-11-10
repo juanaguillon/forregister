@@ -22,7 +22,6 @@ var process = function( ){
    *  [String] // The type requiered in the value... Necessary the brackets.
    *  value // May is passed like variable
    * }
-   * 
    */
   this.secureTypes = function ( types ) {
     if (types.constructor == Object) {
