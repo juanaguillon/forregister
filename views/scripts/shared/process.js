@@ -14,6 +14,7 @@ var process = function( ){
     }
   }  
 
+
   /**
    * Makes secure a types of parameters.
    * If not is secure, lose the value of value in types ( parameter ) json, and replace by 'Secure Failed' string
@@ -22,17 +23,32 @@ var process = function( ){
    *  [String] // The type requiered in the value... Necessary the brackets.
    *  value // May is passed like variable
    * }
+   * @param types Object
    */
   this.secureTypes = function ( types ) {
     if (types.constructor == Object) {
-      var secureType = {};
+      var secureType = [];
+
       Object.newBucle( types, function( key, obj ){
-        if ( obj[key].constructor == key  ){
-          secureType.push( obj[key] )
-        }else{
-          secureType.push(obj[key] = 'Secure Failed' )
+        console.log( obj )
+        if ( obj[ key ].constructor == Array ){
+          var typesSecuring = obj[key];
+          for (var i = 0; i < typesSecuring.length; i++) {
+            if( typesSecuring[i].constructor == key ){
+              secureType.push( typesSecuring[i] )
+            }else{
+              throw "Los valores enviados no son esperados"
+            }
+          }
+        }else if ( obj[key ].constructor == String){
+          if (typesSecuring.constructor == key) {
+            secureType.push(typesSecuring[i])
+          } else {
+            throw "Los valores enviados no son esperados"
+          }
         }
       })
+      return secureType;
 
     } else {
       throw "No es posible asegurar tipos con un parámetro diferente a Object";
