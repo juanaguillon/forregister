@@ -19,4 +19,13 @@ var formProcess = function( ){
     }
     
   }  
+
+  /**
+   * Create a error from element form.
+   * @param {String} formContainer Next element to show the error Message. Pass this argument that jQuery selector.
+   * @param {String} errorMessage Text that be shown in the error.
+   */
+  this.showError = function ( formContainer, errorMessage ) {
+    
+  }
 }

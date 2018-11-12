@@ -1,6 +1,8 @@
 var $ = jQuery;
 
 var register_metadata = function(  ){
+
+  // Form Process class 
   this.formProcess = new formProcess();
   this.name = $('#name_field')
   this.lname = $('#lastname_field')
@@ -8,6 +10,10 @@ var register_metadata = function(  ){
   this.pass = $('#pass_field')
   this.rpass = $('#rpass_field')
 
+  /**
+   * Check the same password.
+   * @return {Boolean}
+   */
   this.samePassword = function( ){
     try {
       if (this.formProcess.sameTwoFields(this.pass.val(), this.rpass.val()) ){
@@ -18,4 +24,8 @@ var register_metadata = function(  ){
       console.log(e)
     }
   }
+
+  
+  
+
 }

@@ -7,7 +7,6 @@ sub.addEventListener('submit', function( e ){
   if ( ! registerMetadata.samePassword() ) {
     alert('No son las mismas contraseñas');
   }else{
-    alert('Yes, is there');    
 
     var data = new FormData(this);
     var obJson = {};
@@ -28,7 +27,7 @@ sub.addEventListener('submit', function( e ){
       })
       .then(res => {
         if (res.stat == true) {
-          jQuery('.form-container').before('<div class="ui success message mini"><div class="header">Registro Completo</div><p>Se ha creado el registro correctamente</p></div>');
+          jQuery('.form-container').before(  );
         } else {
           console.log('nope')
         }

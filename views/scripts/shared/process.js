@@ -1,18 +1,19 @@
 "use strict"
-var process = function( ){
+/**
+  * Make a bucle for a object ( Key : Value)
+  * The callback parameter passed two parametes. First parameter is "key" , and second "value" parameter for get the values returned in loop.
+  */
 
-  /**
-   * Make a bucle for a object ( Key : Value)
-   * The callback parameter passed two parametes. First parameter is "key" , and second "value" parameter for get the values returned in loop.
-   */
-
-  Object.prototype.newBucle = function( object, callback ){
-    for ( var key in object ){
-      if ( object.hasOwnProperty( key ) ){
-        callback( key, object );
-      }
+Object.prototype.newBucle = function (object, callback) {
+  for (var key in object) {
+    if (object.hasOwnProperty(key)) {
+      callback(key, object);
     }
-  }  
+  }
+} 
+
+
+var process = function( ){ 
 
 
   /**
@@ -52,6 +53,41 @@ var process = function( ){
 
     } else {
       throw "No es posible asegurar tipos con un parámetro diferente a Object";
+    }
+  }
+
+
+  /**
+   * Create a HTML structure
+   * 
+   * @param {object} attrs: Attributes of element, send key as attr, and val as value attr. 
+   * @param {string} element: Default is Div
+   */
+  this.createHtml = function (attrs, doc, element = "div") {
+
+    var attrs = []
+    Object.newBucle(attrs, function (key, obj) {
+      attrs.push(key + "='" + obj[key] + "'");
+    })
+
+    var structure = '<' + element + attrs.join(' ') + '>';
+    structure += doc;
+    structure += '</' + element + '>';
+    return structure;
+  }
+
+  this.createMessage = function( typeMessage , message ){
+    var typesAdmited = ["warning", "info", "success", "error", "red", "orange", "yellow", "olive", "green", "teal", "blue", "violet", "purple", "pink", "brown", "black"]
+    var html = 'ui';
+    if ( typeMessage.constructor == String ){
+      if ( typesAdmited.indexOf( typeMessage ) > -1 ){
+        html += typeMessage
+      }
+    }else if( typeMessage.constructor == Object ){
+      var classAdmited = {
+        sizes: [""]
+      }
+      // if (  )
     }
   }
   
