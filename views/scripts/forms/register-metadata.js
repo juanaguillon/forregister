@@ -18,14 +18,9 @@ var register_metadata = function(  ){
     try {
       if (this.formProcess.sameTwoFields(this.pass.val(), this.rpass.val()) ){
         return true;
-      }
-      
+      }      
     } catch (e) {
       console.log(e)
     }
   }
-
-  
-  
-
 }

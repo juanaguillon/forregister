@@ -1,4 +1,5 @@
 "use strict"
+
 /**
   * Make a bucle for a object ( Key : Value)
   * The callback parameter passed two parametes. First parameter is "key" , and second "value" parameter for get the values returned in loop.
@@ -10,8 +11,16 @@ Object.prototype.newBucle = function (object, callback) {
       callback(key, object);
     }
   }
-} 
+}
 
+Object.prototype.large = function (objToDeterminate) {
+  var lenghting = 0;
+  this.newBucle(objToDeterminate, function () {
+    lenghting++;
+  });
+
+  return lenghting;
+}
 
 var process = function( ){ 
 
@@ -65,15 +74,49 @@ var process = function( ){
    */
   this.createHtml = function (attrs, doc, element = "div") {
 
-    var attrs = []
+    var attributes = []
     Object.newBucle(attrs, function (key, obj) {
-      attrs.push(key + "='" + obj[key] + "'");
+      attributes.push(key + "='" + obj[key] + "'");
     })
 
-    var structure = '<' + element + attrs.join(' ') + '>';
+    var structure = '<' + element + ' ' + attributes.join(' ') + '>';
     structure += doc;
     structure += '</' + element + '>';
     return structure;
   }
-  
+
+  // Messages Section --
+
+
+  /**
+   * Create a message field.
+   * @param {String} type Type of error be shown. If you declare this parameter as non-defined message type, it be shown as default.
+   * @param {String} message Message will be thrown.
+   * @see {Link} https://semantic-ui.com/collections/message.html
+   * If you want send more classes, you can defined more class in the first Parameter.
+   * EXMPLE
+   * process.createMessage('error compact inverted', 'This will be the error message' )
+   */
+  this.createMessage = function( type, message ){
+    var classes = "ui message " + type;
+    return this.createHtml({ class: classes }, message);
+  }
+
+  /**
+   * Create a error message
+   * @param {String} message Message that will be shown the error
+   * @see createMessage()
+   */
+  this.createErrorMessage = function( message ){
+    return this.createMessage('error', message )
+  }
+
+  /**
+   * Create a success message
+   * @param {String} message Message that will be shown the success
+   * @see createMessage()
+   */
+  this.createSuccessMessage = function( message ){
+    return this.createMessage('success',  message )
+  }
 } 

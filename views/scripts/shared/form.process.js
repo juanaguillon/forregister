@@ -3,7 +3,11 @@ var formProcess = function( ){
 
   this.process = new process();
 
-  /** */
+  /**
+   * Check if two fields is the same value
+   * @param {String} label1 First value
+   * @param {String} label2 Second value value
+   */
 
   this.sameTwoFields = function( label1, label2 ){
    
@@ -20,12 +24,13 @@ var formProcess = function( ){
     
   }  
 
-  /**
-   * Create a error from element form.
-   * @param {String} formContainer Next element to show the error Message. Pass this argument that jQuery selector.
-   * @param {String} errorMessage Text that be shown in the error.
-   */
-  this.showError = function ( formContainer, errorMessage ) {
-    
+  this.createError = function( message ){
+    return this.process.createErrorMessage( message );
   }
+
+  this.createSuccess = function( message ){
+    return this.process.createSuccessMessage(message);
+  }
+
+  
 }

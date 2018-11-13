@@ -3,9 +3,12 @@ var sub = document.getElementById('register_form');
 
 sub.addEventListener('submit', function( e ){
   var registerMetadata = new register_metadata();
+  
   e.preventDefault();
   if ( ! registerMetadata.samePassword() ) {
-    alert('No son las mismas contraseñas');
+    $('div.form-container').before(
+      registerMetadata.formProcess.createError('Las contraseñas no coinciden')
+    );
   }else{
 
     var data = new FormData(this);
@@ -26,8 +29,12 @@ sub.addEventListener('submit', function( e ){
         return response.json()
       })
       .then(res => {
+        
         if (res.stat == true) {
-          jQuery('.form-container').before(  );
+          alert('yes. register')
+          $('.form-container').before(
+            registerMetadata.formProcess.createSuccess('Se creado el registro correctamente') 
+          );
         } else {
           console.log('nope')
         }
