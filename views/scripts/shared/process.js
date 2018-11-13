@@ -75,20 +75,5 @@ var process = function( ){
     structure += '</' + element + '>';
     return structure;
   }
-
-  this.createMessage = function( typeMessage , message ){
-    var typesAdmited = ["warning", "info", "success", "error", "red", "orange", "yellow", "olive", "green", "teal", "blue", "violet", "purple", "pink", "brown", "black"]
-    var html = 'ui';
-    if ( typeMessage.constructor == String ){
-      if ( typesAdmited.indexOf( typeMessage ) > -1 ){
-        html += typeMessage
-      }
-    }else if( typeMessage.constructor == Object ){
-      var classAdmited = {
-        sizes: [""]
-      }
-      // if (  )
-    }
-  }
   
 } 
