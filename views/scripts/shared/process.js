@@ -40,7 +40,6 @@ var process = function( ){
       var secureType = [];
 
       Object.newBucle( types, function( key, obj ){
-        console.log( obj )
         if ( obj[ key ].constructor == Array ){
           var typesSecuring = obj[key];
           for (var i = 0; i < typesSecuring.length; i++) {
