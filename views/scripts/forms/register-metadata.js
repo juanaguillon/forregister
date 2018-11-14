@@ -54,7 +54,6 @@ var register_metadata = function( form ){
       e.preventDefault();
 
       currentClass.setFields();
-      console.log( currentClass.fields );
       currentClass.headers['body'] = JSON.stringify( currentClass.fields );
       if ( ! currentClass.samePassword() ){
         $( currentClass.form ).before(

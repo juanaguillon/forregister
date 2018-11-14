@@ -1,7 +1,7 @@
 var registerMetadata = new register_metadata('register_form');
 
 registerMetadata.setHeaders({
-  header: {
+  headers: {
     "Content-Type":"application/json;charset=UTF-8"
   },
   method:"POST"

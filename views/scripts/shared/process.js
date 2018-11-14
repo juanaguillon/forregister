@@ -68,8 +68,8 @@ var process = function( ){
   /**
    * Create a HTML structure
    * 
-   * @param {object} attrs: Attributes of element, send key as attr, and val as value attr. 
-   * @param {string} element: Default is Div
+   * @param {Object} attrs: Attributes of element, send key as attr, and val as value attr. 
+   * @param {String} element: Default is Div
    */
   this.createHtml = function (attrs, doc, element = "div") {
 
@@ -118,4 +118,40 @@ var process = function( ){
   this.createSuccessMessage = function( message ){
     return this.createMessage('success',  message )
   }
+
+  /**
+   * Create a information message
+   * @param {String} message Message that will be shown the information
+   */
+  this.createInfoMessage = function( message ){
+    return this.createMessage('info', message)
+  }
+
+  /**
+   * Create a warning message
+   * @param {String} message Message that will be shown the warning
+   */
+  this.createWarningMessage = function (message) {
+    return this.createMessage('warning', message)
+  }
+
+  /**
+   * Create a basic message
+   * @param {String} message Message that will be shown the basic
+   */
+  this.createBasicMessage = function (message) {
+    return this.createMessage('', message)
+  }
+
+  /**
+   * Check if the value is correct with exec format
+   * @param {String} value The value to will be checked.
+   * @param {String} regex The regex format that will be use to check the value.  
+   */   
+  this.checkRegex = function( value, regex ){
+
+
+  }
+
 } 
+
