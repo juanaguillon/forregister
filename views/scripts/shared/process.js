@@ -22,6 +22,20 @@ Object.prototype.large = function (objToDeterminate) {
   return lenghting;
 }
 
+Object.prototype.requiredAll = function(  ){
+  for( var i in this ){
+
+    if (this.hasOwnProperty(i) && this[i] == '') {
+      return false;
+    }
+  }
+  return true;
+}
+
+String.prototype.capitalize = function(){
+  return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 var process = function( ){ 
 
 
@@ -149,8 +163,7 @@ var process = function( ){
    * @param {String} regex The regex format that will be use to check the value.  
    */   
   this.checkRegex = function( value, regex ){
-
-
+    return regex.test( value );
   }
 
 } 

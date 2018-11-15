@@ -49,6 +49,18 @@ var register_metadata = function( form ){
   }
 
   /**
+   * Check the email field.
+   * If you want check a email, send string as parameter.
+   * If email is empty, the function get fields.email, that is declared as name attribute in form
+   * @default email Empty string. 
+   */
+  this.checkEmail = function( email = '' ){
+
+    var emailChecked = ( email == '' ) ? email : this.fields.email;
+    return this.formProcess.checkEmail( emailChecked );
+  }
+
+  /**
    * Get a specific field.
    * You cannot get a field if it´s not defined. The fields is defined by function set fields.
    * Set fields function requiered submit the form.
@@ -62,14 +74,27 @@ var register_metadata = function( form ){
     return false;
   }
 
+  /**
+   * The process that will be output before send the form to DB
+   * @return { DOMMessage | Exec } 
+   */
   this.preSubmit = function(){
-    jQuery(this.form).prev().remove();
+    var beforeFormDisplay = jQuery(this.form);
+    beforeFormDisplay.prev().remove();
     this.setFields();
     this.headers['body'] = JSON.stringify(this.fields);
-    if (this.samePassword()) {
-      this.ajaxSubmit();
+    console.log( this.fields.constructor )
+    console.log( this.fields);
+    if( this.formProcess.requiredAll( this.fields ) ){
+      beforeFormDisplay.before(this.formProcess.createError('Todos los campos son necesarios'))
+    }else if ( ! this.samePassword() ) {
+      beforeFormDisplay.before(this.formProcess.createError('Las contraseñas no coinciden.'))      
+    } else if ( this.checkEmail( ) ){
+      beforeFormDisplay.before( this.formProcess.createError('El email ingresado no es aceptado.'))
     } else {
-      jQuery(this.form).before(this.formProcess.createError('Las contraseñas no coinciden'))
+      this.fields.name = this.fields.name.capitalize();
+      this.fields.lastname = this.fields.lastname.capitalize();
+      this.ajaxSubmit();
     }
     
   }

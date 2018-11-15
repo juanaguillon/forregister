@@ -26,7 +26,8 @@ class Schemas {
           default: Date.now },
         email: { 
           type: String,
-          match: /^[a-zA-Z0-9_\.\-]+@(gmail|outlook|hotmail|yahoo)+\.[a-zA-Z0-9]+$/ }
+          match: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/ 
+        }
       }
     }
 
@@ -37,7 +38,7 @@ class Schemas {
 
   /**
    * Get dynamic model for create a register in DB.
-   * @param {string} modelName -Pass for the name of model
+   * @param {string} modelName Pass for the name of model
    */
   getModel( modelName ){    
     return this.models[ modelName ]
@@ -46,7 +47,7 @@ class Schemas {
   /**
    * Return a schema class.
    * The schemas predefined are at the properties method.
-   * @param {string} handle -Unique string for return the schema
+   * @param {string} handle Unique string for return the schema
    */
   getSchema( handle ){
     return new mongod.Schema( this.allSchemas[handle] );

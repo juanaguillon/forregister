@@ -8,7 +8,6 @@ var formProcess = function( ){
    * @param {String} label1 First value
    * @param {String} label2 Second value value
    */
-
   this.sameTwoFields = function( label1, label2 ){
    
     
@@ -24,12 +23,27 @@ var formProcess = function( ){
     
   }  
 
+  /**
+   * Check the email field.
+   * @param {String} email The email that will be checked
+   */
+  this.checkEmail = function( email ){
+    return this.process.checkRegex( email, /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/ );
+  }
+
   this.createError = function( message ){
     return this.process.createErrorMessage( message );
   }
 
   this.createSuccess = function( message ){
     return this.process.createSuccessMessage(message);
+  }
+
+  this.requiredAll = function( obj ){
+    if ( obj.constructor == Object ){
+      return obj.requiredAll();
+
+    }
   }
 
   
