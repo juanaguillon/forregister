@@ -63,7 +63,7 @@ var register_metadata = function( form ){
   }
 
   this.preSubmit = function(){
-    console.log(jQuery(this.form).prev())
+    jQuery(this.form).prev().remove();
     this.setFields();
     this.headers['body'] = JSON.stringify(this.fields);
     if (this.samePassword()) {
