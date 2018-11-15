@@ -1,4 +1,5 @@
 var registerMetadata = new register_metadata('register_form');
+registerMetadata.url = '/register';
 
 registerMetadata.setHeaders({
   headers: {
@@ -7,4 +8,8 @@ registerMetadata.setHeaders({
   method:"POST"
 })
 
-registerMetadata.submit('/register');
+registerMetadata.form.addEventListener( 'submit', function( e ){
+  e.preventDefault();
+  registerMetadata.preSubmit(); 
+})
+

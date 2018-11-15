@@ -14,6 +14,8 @@ var register_metadata = function( form ){
   // headers property to send ajax process.
   this.headers = {}; 
 
+  this.url = '';
+
  // Set the values of fields.
   this.setFields = function( ){
     var formData = new FormData(this.form)
@@ -46,38 +48,53 @@ var register_metadata = function( form ){
     }
   }
 
-  this.submit = function( url ){
-
-    
-    var currentClass = this;
-    this.form.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      currentClass.setFields();
-      currentClass.headers['body'] = JSON.stringify( currentClass.fields );
-      if ( ! currentClass.samePassword() ){
-        $( currentClass.form ).before(
-          currentClass.formProcess.createError('Las contraseñas no coinciden')
-        )
-      }else{
-        fetch( url, currentClass.headers )
-        .then( response => response.json() )
-        .then( res => {
-          if ( res.stat ){
-           $(currentClass.form).before( currentClass.formProcess.createSuccess('Se ha creado el registro correctamente')
-           );
-          }else{
-            $(currentClass.form).before(
-              currentClass.formProcess.createError('Ha ocurrido un problema con el servidor')
-            );
-          }
-        })
-      }
-
-    })
+  /**
+   * Get a specific field.
+   * You cannot get a field if it´s not defined. The fields is defined by function set fields.
+   * Set fields function requiered submit the form.
+   * @param {String} field The property field you can get.
+   * @returns {Boolean | String } If not exists, return false.
+   */
+  this.getField = function( field ){
+    if ( this.fields.hasOwnProperty( field ) ){
+      return this.fields[field];
+    }
+    return false;
   }
 
-  
+  this.preSubmit = function(){
+    console.log(jQuery(this.form).prev())
+    this.setFields();
+    this.headers['body'] = JSON.stringify(this.fields);
+    if (this.samePassword()) {
+      this.ajaxSubmit();
+    } else {
+      jQuery(this.form).before(this.formProcess.createError('Las contraseñas no coinciden'))
+    }
+    
+  }
+
+  /**
+   * The submit function.
+   * Only call this function when you have all form secure. With your fields are checked for send secure data.
+   * Then, if you need check the password, or the passwords should be same, or an email should be with specific regex.
+   * @param {String} url The url 
+   */
+  this.ajaxSubmit = function( ){    
+   
+    fetch( this.url, this.headers )
+    .then( response => response.json() )
+    .then( res => {
+      if ( res.stat ){
+        $(this.form).before( this.formProcess.createSuccess('Se ha creado el registro correctamente')
+        );
+      }else{
+        $(this.form).before(
+          this.formProcess.createError('Ha ocurrido un problema con el servidor')
+        );
+      }
+    })
+  } 
 
   
 }
