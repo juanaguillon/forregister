@@ -84,14 +84,14 @@ var register_metadata = function( form ){
     this.setFields();
     this.headers['body'] = JSON.stringify(this.fields);
     console.log( this.fields.constructor )
-    console.log( this.fields);
-    if( this.formProcess.requiredAll( this.fields ) ){
+    console.log(this.formProcess.requiredAll(this.fields) );
+    if( ! this.formProcess.requiredAll( this.fields ) ){
       beforeFormDisplay.before(this.formProcess.createError('Todos los campos son necesarios'))
+    } else if (! this.checkEmail()) {
+      beforeFormDisplay.before(this.formProcess.createError('El email ingresado no es aceptado.'))
     }else if ( ! this.samePassword() ) {
       beforeFormDisplay.before(this.formProcess.createError('Las contraseñas no coinciden.'))      
-    } else if ( this.checkEmail( ) ){
-      beforeFormDisplay.before( this.formProcess.createError('El email ingresado no es aceptado.'))
-    } else {
+    }  else {
       this.fields.name = this.fields.name.capitalize();
       this.fields.lastname = this.fields.lastname.capitalize();
       this.ajaxSubmit();

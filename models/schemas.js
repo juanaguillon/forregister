@@ -26,7 +26,7 @@ class Schemas {
           default: Date.now },
         email: { 
           type: String,
-          match: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/ 
+          match: /^[a-zA-Z0-9_\.\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z0-9]+$/ 
         }
       }
     }

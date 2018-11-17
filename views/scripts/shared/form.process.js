@@ -28,7 +28,7 @@ var formProcess = function( ){
    * @param {String} email The email that will be checked
    */
   this.checkEmail = function( email ){
-    return this.process.checkRegex( email, /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/ );
+    return this.process.checkRegex( email, /^[a-zA-Z0-9_\.\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z0-9]+$/ );
   }
 
   this.createError = function( message ){
