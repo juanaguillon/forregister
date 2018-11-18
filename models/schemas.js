@@ -19,16 +19,20 @@ class Schemas {
     this.allSchemas = {
       registerUser: {
         name: String,
+        lastname: String,
         password: String,
         passconfirm: String,
         registerAt: {
           type: Date, 
-          default: Date.now },
+          default: Date.now 
+        },
         email: { 
           type: String,
           match: /^[a-zA-Z0-9_\.\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z0-9]+$/ 
-        }
-      }
+        },
+        status: Boolean,
+        verification_code: String
+      }      
     }
 
     this.models = {

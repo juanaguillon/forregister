@@ -83,8 +83,7 @@ var register_metadata = function( form ){
     beforeFormDisplay.prev().remove();
     this.setFields();
     this.headers['body'] = JSON.stringify(this.fields);
-    console.log( this.fields.constructor )
-    console.log(this.formProcess.requiredAll(this.fields) );
+    
     if( ! this.formProcess.requiredAll( this.fields ) ){
       beforeFormDisplay.before(this.formProcess.createError('Todos los campos son necesarios'))
     } else if (! this.checkEmail()) {
