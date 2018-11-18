@@ -83,10 +83,9 @@ var register_metadata = function( form ){
     beforeFormDisplay.prev().remove();
     this.setFields();
     this.headers['body'] = JSON.stringify(this.fields);
-    
     if( ! this.formProcess.requiredAll( this.fields ) ){
       beforeFormDisplay.before(this.formProcess.createError('Todos los campos son necesarios'))
-    } else if (! this.checkEmail()) {
+    } else if (! this.checkEmail( this.fields.email)) {
       beforeFormDisplay.before(this.formProcess.createError('El email ingresado no es aceptado.'))
     }else if ( ! this.samePassword() ) {
       beforeFormDisplay.before(this.formProcess.createError('Las contraseñas no coinciden.'))      
