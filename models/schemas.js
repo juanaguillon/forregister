@@ -1,5 +1,26 @@
 const mongod = require('./connect');
 
+let schemas = {
+  registerUser : {
+    name: "registerUser",
+    props:{
+      name: String,
+      lastname: String,
+      status: Boolean,
+      verification_code: String,
+      password: String,
+      email: {
+        type: String,
+        match: /^[a-zA-Z0-9_\.\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z0-9]+$/
+      },
+      registerAt: {
+        type: Date,
+        default: Date.now
+      }
+    }    
+  }
+} 
+
 /**
  * Define schemas, define for a pre-formated query in database
  */
@@ -21,7 +42,6 @@ class Schemas {
         name: String,
         lastname: String,
         password: String,
-        passconfirm: String,
         registerAt: {
           type: Date, 
           default: Date.now 
