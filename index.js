@@ -1,6 +1,6 @@
 // Import the view paths
-const routes = require('./views-paths');
 const reload = require('reload');
+const routes = require('./views-paths');
 
 /**
  * The port to listen the application.
