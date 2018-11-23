@@ -4,6 +4,7 @@
 
 const conection = require('./models/connect');
 const schemas = require('./models/schemas');
+const process = require('./backprocess');
 
 class RouterFunctions {
   
@@ -17,8 +18,8 @@ class RouterFunctions {
       let user = this;
 
       
-      if ( user.password !== req.body['r-password'] ){
-
+      if ( user.password !== req.body['r-password'] && process.checkEmail() ){
+        
       }
     });
     const user = conection.model("user", schema  );
