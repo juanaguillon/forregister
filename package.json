@@ -4,7 +4,8 @@
   "description": "The node description",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon index.js -e pug,js"
+    "test": "nodemon index.js -e pug,js",
+    "runtest": "nodemon testing.js"
   },
   "author": "Juan Aguillon",
   "license": "ISC",

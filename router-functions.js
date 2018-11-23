@@ -3,7 +3,7 @@
  */
 
 const conection = require('./models/connect');
-const schema = require('./models/schemas');
+const schemas = require('./models/schemas');
 
 class RouterFunctions {
   
@@ -12,7 +12,16 @@ class RouterFunctions {
   }   
 
   registerUser( req, res ){
-    const user = conection.model("user", new conection.Schema( schema.registerUser ) );
+    const schema = new conection.Schema(schemas.registerUser);
+    schema.pre('validate',function( next ){
+      let user = this;
+
+      
+      if ( user.password !== req.body['r-password'] ){
+
+      }
+    });
+    const user = conection.model("user", schema  );
     const newUser = new user({
       name: req.body.name,
       email: req.body.email,
