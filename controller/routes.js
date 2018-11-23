@@ -1,3 +1,8 @@
+/**
+ * The file to connect the app with the HTTP posts.
+ * Router function, will be the manager to make specific function about the http Methdos.
+ */
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const routeFunctions = require('../router-functions');

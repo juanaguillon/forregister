@@ -1,3 +1,7 @@
+/**
+ * In This file, called functions refered to HTTP methods.
+ */
+
 const conection = require('./models/connect');
 const schema = require('./models/schemas');
 
