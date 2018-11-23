@@ -1,6 +1,6 @@
 // Import the functions.
 // Only require ( no save in var ), 'cause need import the prototypes in the file 
-require('../functions');
+const a = require('../functions');
 
 const schemas = {};
 

@@ -1,4 +1,5 @@
-const model = require('./models/schemas');
+const conection = require('./models/connect');
+const schema = require('./models/schemas');
 
 class RouterFunctions {
   
@@ -7,7 +8,7 @@ class RouterFunctions {
   }   
 
   registerUser( req, res ){
-    const user = model.getModel( 'registerUser' );
+    const user = conection.model("user", new conection.Schema( schema.registerUser ) );
     const newUser = new user({
       name: req.body.name,
       email: req.body.email,
