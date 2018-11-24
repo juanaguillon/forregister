@@ -15,11 +15,20 @@ class RouterFunctions {
   registerUser( req, res ){
     const schema = new conection.Schema(schemas.registerUser);
     schema.pre('validate',function( next ){
-      let user = this;
-
-      
-      if ( user.password !== req.body['r-password'] && process.checkEmail() ){
+      if (this.password == req.body['r-password'] && process.checkEmail(this.email) ){
         
+        let emailExists = false
+        user.findOne({email:this.email},"email",function( err, res){
+          if ( !res ){
+            emailExists = true;
+          }
+        })
+
+        if ( ! emailExists ){
+          next()
+        }else{
+          res.status(200).send({stat:false,message:"Email ingresado no disponible"});
+        }
       }
     });
     const user = conection.model("user", schema  );
@@ -28,7 +37,7 @@ class RouterFunctions {
       email: req.body.email,
       lastname: req.body.lastname,
       password: req.body.password,
-      verification_code: Math.floor( Math.random() * 99999999999 ) + 90000000000,
+      verification_code: Math.floor( Math.random() * 99999999999 ) + 10000000000,
       status: false
     })
 

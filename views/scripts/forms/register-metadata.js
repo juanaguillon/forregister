@@ -111,6 +111,10 @@ var register_metadata = function( form ){
       if ( res.stat ){
         $(this.form).before( this.formProcess.createSuccess('Se ha creado el registro correctamente')
         );
+      }else if( ! res.stat && res.message ){
+        $(this.form).before(
+          this.formProcess.createError(res.message )
+        );
       }else{
         $(this.form).before(
           this.formProcess.createError('Ha ocurrido un problema con el servidor')
