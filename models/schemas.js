@@ -1,6 +1,8 @@
 // Import the functions.
 // Only require ( no save in var ), 'cause need import the prototypes in the file 
 
+const connection = require('./connect');
+
 const schemas = {};
 
 /**
@@ -11,7 +13,7 @@ const schemas = {};
 function setSchema(name, props) {
 
   if ( ! schemas.hasOwnProperty(name) ){
-    schemas[name] = props;
+    schemas[name] = new connection.Schema( props );
   }else{
     throw `El id ${name} en schemas no está disponible, intente otro.`;
   }
@@ -32,7 +34,10 @@ setSchema("registerUser", {
     type: Date,
     default: Date.now
   }
-} );
+ } );
 
-module.exports = schemas;
+module.exports ={
+  schemas: schemas,
+  connection: connection
+};
 

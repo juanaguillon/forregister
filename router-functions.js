@@ -2,8 +2,7 @@
  * In This file, called functions refered to HTTP methods.
  */
 
-const conection = require('./models/connect');
-const schemas = require('./models/schemas');
+const model = require('./models/schemas');
 const process = require('./backprocess');
 
 class RouterFunctions {
@@ -13,25 +12,27 @@ class RouterFunctions {
   }   
 
   registerUser( req, res ){
-    const schema = new conection.Schema(schemas.registerUser);
+    const schema = model.schemas.registerUser;
     schema.pre('validate',function( next ){
       if (this.password == req.body['r-password'] && process.checkEmail(this.email) ){
         
-        let emailExists = false
-        user.findOne({email:this.email},"email",function( err, res){
-          if ( !res ){
-            emailExists = true;
+        var query = user.findOne({ email: this.email }, "email")
+        query.exec( function(err, doc){
+          
+          console.log('The response is ' , doc)
+          if (doc != null) {
+            res.status(200).send({ stat: false, message: "Email ingresado no disponible" });
+            return;
+          } else {
+            next()
           }
-        })
 
-        if ( ! emailExists ){
-          next()
-        }else{
-          res.status(200).send({stat:false,message:"Email ingresado no disponible"});
-        }
+         
+        } )      
+        
       }
     });
-    const user = conection.model("user", schema  );
+    const user = model.connection.model("user", schema  );
     const newUser = new user({
       name: req.body.name,
       email: req.body.email,
