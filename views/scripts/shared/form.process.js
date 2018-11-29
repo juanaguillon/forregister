@@ -1,7 +1,5 @@
 "use strict";
-var formProcess = function( ){  
-
-  this.process = new process();
+var formProcess = function( ){   
 
   /**
    * Check if two fields is the same value
@@ -11,7 +9,7 @@ var formProcess = function( ){
   this.sameTwoFields = function( label1, label2 ){
    
     
-    var values = this.process.secureTypes( { 
+    var values = secureTypes( { 
       [String]: [label1, label2 ]
     } );
     if ( values[0] == values[1] ){
@@ -28,15 +26,15 @@ var formProcess = function( ){
    * @param {String} email The email that will be checked
    */
   this.checkEmail = function( email ){
-    return this.process.checkRegex( email, /^[a-zA-Z0-9_\.\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z0-9]+$/ );
+    return checkRegex( email, /^[a-zA-Z0-9_\.\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z0-9]+$/ );
   }
 
   this.createError = function( message ){
-    return this.process.createErrorMessage( message );
+    return createErrorMessage( message );
   }
 
   this.createSuccess = function( message ){
-    return this.process.createSuccessMessage(message);
+    return createSuccessMessage(message);
   }
 
   this.requiredAll = function( obj ){

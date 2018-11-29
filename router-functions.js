@@ -19,17 +19,13 @@ class RouterFunctions {
         var query = user.findOne({ email: this.email }, "email")
         query.exec( function(err, doc){
           
-          console.log('The response is ' , doc)
           if (doc != null) {
             res.status(200).send({ stat: false, message: "Email ingresado no disponible" });
             return;
           } else {
             next()
-          }
-
-         
-        } )      
-        
+          }         
+        } )              
       }
     });
     const user = model.connection.model("user", schema  );
@@ -43,7 +39,7 @@ class RouterFunctions {
     })
 
     newUser.save( err => {
-      if( err ) throw err;
+      if( err ) throw "Error al guardar el usuario, error:" + err;
 
       res.status(200).send({stat:true});
     } )
