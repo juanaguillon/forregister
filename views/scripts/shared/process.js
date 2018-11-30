@@ -38,12 +38,12 @@ String.prototype.capitalize = function(){
 
 
 
-getHost = function( ){
-  return window.href.host;
+var getHost = function( ){
+  return window.location.host;
 }
 
-sendLocation = function( url ){
-  window.href.location = `${getHost / url}`;
+var sendLocation = function( url ){
+  window.location.href = `/${url}`;
 }
 
 /**
@@ -56,7 +56,7 @@ sendLocation = function( url ){
  * }
  * @param types Object
  */
-secureTypes = function ( types ) {
+var secureTypes = function ( types ) {
   if (types.constructor == Object) {
     var secureType = [];
 
@@ -91,7 +91,7 @@ secureTypes = function ( types ) {
  * @param {String} value The value to will be checked.
  * @param {String} regex The regex format that will be use to check the value.  
  */
-checkRegex = function (value, regex) {
+var checkRegex = function (value, regex) {
   return regex.test(value);
 }
 
@@ -102,7 +102,7 @@ checkRegex = function (value, regex) {
  * @param {Object} attrs: Attributes of element, send key as attr, and val as value attr. 
  * @param {String} element: Default is Div
  */
-createHtml = function (attrs, doc, element = "div") {
+var createHtml = function (attrs, doc, element = "div") {
 
   var attributes = []
   Object.newBucle(attrs, function (key, obj) {
@@ -127,7 +127,7 @@ createHtml = function (attrs, doc, element = "div") {
  * EXMPLE
  * process.createMessage('error compact inverted', 'This will be the error message' )
  */
-createMessage = function( type, message ){
+var createMessage = function( type, message ){
   var classes = "ui message " + type;
   return createHtml({ class: classes }, message);
 }
@@ -137,7 +137,7 @@ createMessage = function( type, message ){
  * @param {String} message Message that will be shown the error
  * @see createMessage()
  */
-createErrorMessage = function( message ){
+var createErrorMessage = function( message ){
   return createMessage('error', message )
 }
 
@@ -146,7 +146,7 @@ createErrorMessage = function( message ){
  * @param {String} message Message that will be shown the success
  * @see createMessage()
  */
-createSuccessMessage = function( message ){
+var createSuccessMessage = function( message ){
   return createMessage('success',  message )
 }
 
@@ -154,7 +154,7 @@ createSuccessMessage = function( message ){
  * Create a information message
  * @param {String} message Message that will be shown the information
  */
-createInfoMessage = function( message ){
+var createInfoMessage = function( message ){
   return createMessage('info', message)
 }
 
@@ -162,7 +162,7 @@ createInfoMessage = function( message ){
  * Create a warning message
  * @param {String} message Message that will be shown the warning
  */
-createWarningMessage = function (message) {
+var createWarningMessage = function (message) {
   return createMessage('warning', message)
 }
 
@@ -170,7 +170,7 @@ createWarningMessage = function (message) {
  * Create a basic message
  * @param {String} message Message that will be shown the basic
  */
-createBasicMessage = function (message) {
+var createBasicMessage = function (message) {
   return createMessage('', message)
 }
 

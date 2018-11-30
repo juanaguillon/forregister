@@ -26,6 +26,7 @@ app.set('port', process.env.PORT || 3000 );
  * HTTP request GET listening in app.get function
  */
 app.get('/register', routeFunctions.renderRegisterUser );
+app.get('/register-success',routeFunctions.renderRegisterSuccess )
 app.post('/register', routeFunctions.registerUser );
 
 module.exports = {

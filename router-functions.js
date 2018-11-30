@@ -11,6 +11,10 @@ class RouterFunctions {
     res.render( 'register', {title: "Registro de Usuario" } )
   }   
 
+  renderRegisterSuccess ( req, res ){
+    res.render('register-success',{title:"Verificación de registro"})
+  }
+
   registerUser( req, res ){
     const schema = model.schemas.registerUser;
     schema.pre('validate',function( next ){
@@ -40,7 +44,6 @@ class RouterFunctions {
 
     newUser.save( err => {
       if( err ) throw "Error al guardar el usuario, error:" + err;
-
       res.status(200).send({stat:true});
     } )
   } 

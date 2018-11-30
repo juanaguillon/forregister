@@ -109,7 +109,8 @@ var register_metadata = function( form ){
     .then( response => response.json() )
     .then( res => {
       if ( res.stat ){
-        sendLocation('register-success');
+        console.log( res )
+        window.location.href = "/register-success";
       }else if( ! res.stat && res.message ){
         $(this.form).before(
           this.formProcess.createError(res.message )
