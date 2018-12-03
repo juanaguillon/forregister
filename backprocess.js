@@ -1,3 +1,4 @@
+const fs = require('fs');
 class process{
 
   /**
@@ -16,6 +17,15 @@ class process{
  */
   checkEmail(value) {
     return this.checkRegex(value, /^[a-zA-Z0-9_\.\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z0-9]+$/);
+  }
+
+  /**
+   * Get a template by a string.
+   * @param {String} template A file to read
+   */
+  getTemplate( template ){
+    return fs.readFileSync(template).toString() 
+  
   }
 
 }
