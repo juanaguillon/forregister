@@ -104,10 +104,11 @@ var register_metadata = function( form ){
    * @param {String} url The url 
    */
   this.ajaxSubmit = function( ){    
-   
+    jQuery('.ui.load-register').addClass('show')
     fetch( this.url, this.headers )
     .then( response => response.json() )
     .then( res => {
+      // $('.load-register').dimmer('hide')
       if ( res.stat ){
         sendLocation("register-success");
       }else if( ! res.stat && res.message ){

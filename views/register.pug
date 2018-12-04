@@ -5,6 +5,8 @@ html(lang="en")
   body
     include globals/menu.pug
     .ui.container.segment.raised.text
+      .ui.dimmer.load-register
+        .ui.text.loader Cargando
       .ui.form-container
         form.ui.form#register_form(method="post")
           .two.fields

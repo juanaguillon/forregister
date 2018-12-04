@@ -28,8 +28,7 @@ class RouterFunctions {
         query.exec( function(err, doc){
 
           if (doc != null) {
-            res.status(200).send({ stat: false, message: "Email ingresado no disponible" });
-            return;
+            res.send({ stat: false, message: "Email ingresado no disponible" });
           } else {
             next()
           }
@@ -62,13 +61,14 @@ class RouterFunctions {
         from: "lg2a6h2dne757hrb@ethereal.email",
         to: newUser.email,
         subject: 'Verificación correo electrónico',
-        html: process.getTemplate('./temp.index.html') 
+        html: process.getTemplate('email.register.html')
       }
       transport.sendMail( mailOptions , ( errorMail , info )=>{
         if ( errorMail ) throw "Error al enviar mail " + errorMail;
 
         console.log('Se ha enviado el email correctamente');
         console.log('Ver URL: %s', mailer.getTestMessageUrl( info ) );
+        res.status(200).send({ stat: true });
       })
       
       res.status(200).send({stat:true});

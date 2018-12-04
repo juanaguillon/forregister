@@ -24,7 +24,7 @@ class process{
    * @param {String} template A file to read
    */
   getTemplate( template ){
-    return fs.readFileSync(template).toString() 
+    return fs.readFileSync('./views/templates/' + template ).toString() 
   
   }
 
