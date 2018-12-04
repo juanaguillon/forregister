@@ -1,4 +1,6 @@
 const fs = require('fs');
+const mailer = require('nodemailer');
+
 class process{
 
   /**
@@ -26,6 +28,38 @@ class process{
   getTemplate( template ){
     return fs.readFileSync('./views/templates/' + template ).toString() 
   
+  }
+
+  /**
+   * Send a email with nodemailer.
+   * This function will gone to show a back-console if was send sussefully and show the url to visit the email.
+   * @param {String} html HTML Template taht will be send to receiver.
+   * 
+   */
+  sendEmail(html, to, from = "lg2a6h2dne757hrb@ethereal.email" ){
+    let transport = mailer.createTransport({
+      host: "smtp.ethereal.email",
+      secure: false,
+      port: 587,
+      auth: {
+        user: "lg2a6h2dne757hrb@ethereal.email",
+        pass: "bWtszf1nDn8pkmdDzq"
+      }
+    })
+
+    let mailOptions = {
+      from: from ,
+      to: to,
+      subject: 'Verificación correo electrónico',
+      html: this.getTemplate(html)
+    }
+    transport.sendMail(mailOptions, (errorMail, info) => {
+      if (errorMail) throw "Error al enviar mail " + errorMail;
+
+      console.log('Se ha enviado el email correctamente');
+      console.log('Ver URL: %s', mailer.getTestMessageUrl(info));
+      res.status(200).send({ stat: true });
+    })
   }
 
 }
