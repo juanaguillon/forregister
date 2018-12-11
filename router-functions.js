@@ -13,7 +13,12 @@ class RouterFunctions {
   }
 
   renderRegisterSuccess ( req, res ){
-    res.render('register-success',{title:"Verificación de registro"})
+    if ( req.session.userId && ! req.session.status ){
+      res.render('register-success',{title:"Verificación de registro"})
+
+    }else{
+      res.status(200).send({stat:'Meessage no routed'});
+    }
   }
 
   registerUser( req, res ){
@@ -27,7 +32,7 @@ class RouterFunctions {
         query.exec( function(err, doc){
 
           if (doc != null) {
-            res.send({ stat: false, message: "Email ingresado no disponible" });
+            res.status(400).send({ stat: false, message: "Email ingresado no disponible" });
           } else {
             next()
           }
@@ -46,8 +51,9 @@ class RouterFunctions {
 
     newUser.save( err => {
       if( err ) throw "Error al guardar el usuario, error:" + err;
-      process.sendEmail('email.register.html');
-      
+      process.sendEmail('<h1>Crear Auxiliar</h1><p>Actualizar la informacion porfavor.</p>', newUser.email );
+      req.session.userId = newUser._id;
+      res.status(200).send({stat: true});
     } )
   }
 

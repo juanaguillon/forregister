@@ -108,6 +108,7 @@ var register_metadata = function( form ){
     fetch( this.url, this.headers )
     .then( response => response.json() )
     .then( res => {
+      console.log(res);
       // $('.load-register').dimmer('hide')
       if ( res.stat ){
         sendLocation("register-success");

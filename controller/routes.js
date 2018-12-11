@@ -5,6 +5,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 const routeFunctions = require('../router-functions');
 const app = express();
 const urlEncoded = bodyParser.urlencoded( {extended:false} );
@@ -13,11 +14,18 @@ const json = bodyParser.json();
 // Process the request to json.
 // Is important for applicacion can be read the body data.
 app.use( json );
+
 // Request body is URL Encoded
 app.use( urlEncoded );
 
+// Sessions express
+app.use( session({
+  secret:"sshkeyword", resave:false, saveUninitialized: false 
+}) );
+
 // Set engine view.
 app.set('view engine','pug');
+
 // Set the port to listen the app
 app.set('port', process.env.PORT || 3000 );
 

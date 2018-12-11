@@ -22,15 +22,6 @@ class process{
   }
 
   /**
-   * Get a template by a string.
-   * @param {String} template A file to read
-   */
-  getTemplate( template ){
-    return fs.readFileSync('./views/templates/' + template ).toString() 
-  
-  }
-
-  /**
    * Send a email with nodemailer.
    * This function will gone to show a back-console if was send sussefully and show the url to visit the email.
    * @param {String} html HTML Template taht will be send to receiver.
@@ -51,7 +42,7 @@ class process{
       from: from ,
       to: to,
       subject: 'Verificación correo electrónico',
-      html: this.getTemplate(html)
+      html: html
     }
     transport.sendMail(mailOptions, (errorMail, info) => {
       if (errorMail) throw "Error al enviar mail " + errorMail;
