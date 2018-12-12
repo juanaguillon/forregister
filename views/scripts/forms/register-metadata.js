@@ -109,7 +109,7 @@ var register_metadata = function( form ){
     .then( response => response.json() )
     .then( res => {
       console.log(res);
-      $('.load-register').addClass("disabled")
+      $('.load-register').removeClass("active").addClass("disabled")
       if ( res.stat ){
         sendLocation("register-success");
       }else if( ! res.stat && res.message ){

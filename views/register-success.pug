@@ -5,5 +5,7 @@ html(lang="en")
   body
     include globals/menu.pug
 
-    .ui.segment.container.very.padded.green
-      h3.ui.header.center.aligned Se ha enviado un correo a su cuenta.
+    .ui.segment.text.container
+      h3.ui.header.icon.aligned.center 
+        i.circular.icon.envelope.teal
+        | Se ha enviado un correo a su cuenta #{email}

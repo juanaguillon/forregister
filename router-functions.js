@@ -14,7 +14,7 @@ class RouterFunctions {
 
   renderRegisterSuccess ( req, res ){
     if ( req.session.userId && ! req.session.status ){
-      res.render('register-success',{title:"Verificación de registro"})
+      res.render('register-success', { title: "Verificación de registro", email: req.session.email});
 
     }else{
       res.status(200).send({stat:'Meessage no routed'});
@@ -51,10 +51,20 @@ class RouterFunctions {
 
     newUser.save( err => {
       if( err ) throw "Error al guardar el usuario, error:" + err;
+      
+      if ( req.session ){
+        console.log('Exists session acttualy');
+      }
       process.sendEmail('<h1>Crear Auxiliar</h1><p>Actualizar la informacion porfavor.</p>', newUser.email );
       req.session.userId = newUser._id;
+      req.session.email = newUser.email;
       res.status(200).send({stat: true});
     } )
+  }
+
+  closeSession( req, res ){
+    req.session.destroy();
+    res.redirect('/session-close');
   }
 
 }

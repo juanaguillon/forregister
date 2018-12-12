@@ -1,4 +1,4 @@
-const fs = require('fs');
+const pug = require('pug');
 const mailer = require('nodemailer');
 
 class process{
@@ -22,10 +22,22 @@ class process{
   }
 
   /**
+   * 
+   * Get a template file based in pug engine file.
+   * You need select a pug file in the views/templates folder.
+   * @param {String} template The template to get in view template folder
+   * @param {String} options The options passed to template if have variables.
+   */
+  getTemplate( template, options ){
+    return pug.renderFile( "./views/templates" + template + '.pug', options );
+  }
+
+  /**
    * Send a email with nodemailer.
    * This function will gone to show a back-console if was send sussefully and show the url to visit the email.
    * @param {String} html HTML Template taht will be send to receiver.
-   * 
+   * @param {String} to Receptor email.
+   * @param {String} from Transmitter email
    */
   sendEmail(html, to, from = "lg2a6h2dne757hrb@ethereal.email" ){
     let transport = mailer.createTransport({
@@ -47,8 +59,6 @@ class process{
     transport.sendMail(mailOptions, (errorMail, info) => {
       if (errorMail) throw "Error al enviar mail " + errorMail;
 
-      console.log('Se ha enviado el email correctamente');
-      console.log('Ver URL: %s', mailer.getTestMessageUrl(info));
       res.status(200).send({ stat: true });
     })
   }

@@ -35,7 +35,9 @@ app.set('port', process.env.PORT || 3000 );
  */
 app.get('/register', routeFunctions.renderRegisterUser );
 app.get('/register-success',routeFunctions.renderRegisterSuccess )
+app.get('/session-destroy', routeFunctions.closeSession);
 app.post('/register', routeFunctions.registerUser );
+
 
 module.exports = {
   express: express,
