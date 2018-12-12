@@ -2,5 +2,6 @@
   .ui.menu.blue.inverted.container.large
     a.item(href="/register") Inicio
     a.item(href="") Sobre Nosotros
-    a.item(href="/session-destroy") Salir
+    if userId
+      a.item(href="/session-destroy") Salir
   

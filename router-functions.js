@@ -9,7 +9,8 @@ const process = require('./backprocess');
 class RouterFunctions {
 
   renderRegisterUser( req, res ){
-    res.render( 'register', {title: "Registro de Usuario" } )
+    let userId = req.session.userId || false;
+    res.render( 'register', {title: "Registro de Usuario" , userId : userId  } )
   }
 
   renderRegisterSuccess ( req, res ){
@@ -52,19 +53,22 @@ class RouterFunctions {
     newUser.save( err => {
       if( err ) throw "Error al guardar el usuario, error:" + err;
       
-      if ( req.session ){
-        console.log('Exists session acttualy');
-      }
-      process.sendEmail('<h1>Crear Auxiliar</h1><p>Actualizar la informacion porfavor.</p>', newUser.email );
+      process.sendEmail(process.getTemplate("register.email",
+        {
+          "verify": newUser.verification_code
+        }
+      ) , newUser.email );
+
       req.session.userId = newUser._id;
       req.session.email = newUser.email;
+      req.session.status = newUser.status;
       res.status(200).send({stat: true});
     } )
   }
 
   closeSession( req, res ){
     req.session.destroy();
-    res.redirect('/session-close');
+    res.redirect('/register');
   }
 
 }

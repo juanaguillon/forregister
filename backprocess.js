@@ -28,8 +28,8 @@ class process{
    * @param {String} template The template to get in view template folder
    * @param {String} options The options passed to template if have variables.
    */
-  getTemplate( template, options ){
-    return pug.renderFile( "./views/templates" + template + '.pug', options );
+  getTemplate( template, options ={} ){
+    return pug.renderFile( "./views/templates/" + template + '.pug', options );
   }
 
   /**
