@@ -63,6 +63,26 @@ class process{
     })
   }
 
+  /**
+   * Check if exists the session acttually. Pass the Req param for search the session.
+   * @param {Request} req The HTTP request
+   * @type Boolean
+   * @return True if exists the session
+   */
+  isSession( req ){
+    if ( req.session.userId ) return true;
+  }
+
+  /**
+   * NOTE: Call this method only if exists the session. If not exists session, throw error.
+   * Get the userId of current session
+   * @param {Request} req The HTTP Request
+   * @return Current User ID.
+   */  
+  getUserId( req ){
+    return req.session.userId;
+  }
+
 }
 
 

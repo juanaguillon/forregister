@@ -1,46 +1,48 @@
-/**
- * In This file, called functions refered to HTTP methods.
- */
+// In This file, called functions refered to HTTP methods.
 
 const model = require('./models/schemas');
 const process = require('./backprocess');
+const requestHttp = require('./controller/request-http');
 
 
 class RouterFunctions {
 
   renderRegisterUser( req, res ){
-    let userId = req.session.userId || false;
-    res.render( 'register', {title: "Registro de Usuario" , userId : userId  } )
+      res.render( 'register', {
+        title: "Registro de Usuario" , 
+        userId : process.getUserId( req )
+      } );
   }
 
   renderRegisterSuccess ( req, res ){
     if ( req.session.userId && ! req.session.status ){
-      res.render('register-success', { title: "Verificación de registro", email: req.session.email});
+      res.render('register-success', { 
+        title: "Verificación de registro",
+        email: req.session.email, 
+        userId: req.session.userId
+      });
 
     }else{
-      res.status(200).send({stat:'Meessage no routed'});
+      res.redirect('/register');
     }
   }
 
   registerUser( req, res ){
-    const schema = model.schemas.registerUser;
-
-
-    schema.pre('validate',function( next ){
+    model.schemas.registerUser.pre('validate',function( next ){
       if (this.password == req.body['r-password'] && process.checkEmail(this.email) ){
 
         var query = user.findOne({ email: this.email }, "email")
         query.exec( function(err, doc){
-
+          if ( err ) throw "Error en el servidor al crear usuario, error:" + err;
           if (doc != null) {
-            res.status(400).send({ stat: false, message: "Email ingresado no disponible" });
+            res.status(409).send({ stat: false, message: "Email ingresado no disponible" });
           } else {
             next()
           }
         } )
       }
     });
-    const user = model.connection.model("user", schema  );
+    const user = model.connection.model("user", model.schemas.registerUser );
     const newUser = new user({
       name: req.body.name,
       email: req.body.email,
@@ -53,9 +55,10 @@ class RouterFunctions {
     newUser.save( err => {
       if( err ) throw "Error al guardar el usuario, error:" + err;
       
-      process.sendEmail(process.getTemplate("register.email",
+      process.sendEmail( process.getTemplate("register.email",
         {
-          "verify": newUser.verification_code
+          "verify": newUser.verification_code,
+          "userId": newUser._id
         }
       ) , newUser.email );
 
@@ -64,6 +67,26 @@ class RouterFunctions {
       req.session.status = newUser.status;
       res.status(200).send({stat: true});
     } )
+  }
+
+  confirmEmail ( req, res ){
+    if (!req.query.verify) res.redirect('/register');
+    let searchVerify = model.connection.model( "user", model.schemas.registerUser );
+
+    searchVerify.findById(
+      requestHttp.getQuery( req, "unique"),
+      function(err, user){
+        if ( err ) throw "Error al verificar el email en la base de datos, error:" + err;
+
+        if ( user.verification_code == requestHttp.getQuery( req, 'verify') ){
+          user.status = true;
+          user.save( function( ){
+            res.redirect('/login');
+          } );
+        }
+      }
+    )
+    
   }
 
   closeSession( req, res ){
