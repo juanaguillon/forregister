@@ -1,6 +1,6 @@
-div(style="width:100%; max-width:500px;box-shadow:0px 0px 5px black; padding:8px;margin: 0 auto;")
+div(style='padding:8px;margin: 0 auto;width: 100%;max-width: 700px;font-family: Helvetica;')
   h3 Verificación de Correo Electrónico
-  p Este email se ha enviado ya que este correo electrónico ha sido registrado en la web http://www.myweb.com. Por favor, sigua el siguiente link para continuar con el registro.
-
+  p
+    | Este email se ha enviado ya que este correo electrónico ha sido registrado en la web http://www.myweb.com. Por favor, sigua el siguiente link para continuar con el registro.
   h4 Si usted no tiene idea de este email, por favor hágalo saber.
-  a(href="http://localhost:3000/confirm-email?verify=" + verify + "&unique=" + userId, style="padding:3px; background-color:#0083ff; color:white; border:none; width:300px") Verificar 
+  a(href='http://localhost:3000/confirm-email?verify=' + verify+"&unique="+ userId, style='padding: 6px;background-color:#0083ff;color:white;border:none;width:300px;display: block;text-align: center;text-decoration: none;margin: 0 auto;') Verificar 

@@ -16,10 +16,12 @@ class RouterFunctions {
 
   renderRegisterSuccess ( req, res ){
     if ( req.session.userId && ! req.session.status ){
-      res.render('register-success', { 
+      res.render('message', { 
+        // Sending a template to render in message.pug view
+        template: process.getTemplate('register-success.message', {
+          email: req.session.email
+        }),
         title: "Verificación de registro",
-        email: req.session.email, 
-        userId: req.session.userId
       });
 
     }else{
