@@ -1,6 +1,17 @@
 const pug = require('pug');
 const mailer = require('nodemailer');
 
+Object.prototype.size = function( ){
+  let i = 0;
+  for ( var e in this ){
+    if ( this.hasOwnProperty( e ) ){
+      i++;
+    }
+  }
+
+  return i;
+}
+
 class process{
 
   /**

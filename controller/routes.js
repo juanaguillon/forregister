@@ -33,11 +33,16 @@ app.set('port', process.env.PORT || 3000 );
  * The routes to listen the browser
  * HTTP request GET listening in app.get function
  */
+
+//  Register Routes
+app.post('/register', routeFunctions.registerUser );
+
 app.get('/register', routeFunctions.renderRegisterUser );
 app.get('/register-success',routeFunctions.renderRegisterSuccess )
-app.get('/session-destroy', routeFunctions.closeSession);
 app.get('/confirm-email', routeFunctions.confirmEmail );
-app.post('/register', routeFunctions.registerUser );
+
+// Session Routes
+app.get('/session-destroy', routeFunctions.sessionDestroy);
 
 
 module.exports = {

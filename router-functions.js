@@ -4,16 +4,30 @@ const model = require('./models/schemas');
 const process = require('./backprocess');
 const requestHttp = require('./controller/request-http');
 
-
+/**
+ * The router functions will be used for handlers ( Functions in specific URLs ), and executed when the user entry to a url.
+ * Each function method, has a comment with the relative Path ( RELPATH ) to application, giving information about when it execute.
+ */
 class RouterFunctions {
 
+  /**
+   * RENDERS
+   * Every render*() functions is used for create a render beetween the routes and the views engines.
+   * This section declare all renders that will be used in the application
+   */
+
+  // RELPATH: /register
+  // Render template for register a user.
   renderRegisterUser( req, res ){
       res.render( 'register', {
         title: "Registro de Usuario" , 
         userId : process.getUserId( req )
       } );
   }
-
+  
+  // RELPATH: /register-sucess
+  // Render template for inform to user about the success register.
+  // Only can access if exists the session
   renderRegisterSuccess ( req, res ){
     if ( req.session.userId && ! req.session.status ){
       res.render('message', { 
@@ -29,6 +43,13 @@ class RouterFunctions {
     }
   }
 
+  /**
+   * POST METHODS
+   * This section giving information about the all post methods in the applications.
+   */
+
+  // RELPATH: /register ( POST )
+  // Post method for register a user. Used in render register with ajax request.
   registerUser( req, res ){
     model.schemas.registerUser.pre('validate',function( next ){
       if (this.password == req.body['r-password'] && process.checkEmail(this.email) ){
@@ -44,7 +65,11 @@ class RouterFunctions {
         } )
       }
     });
+
+    // Create model for save user.
     const user = model.connection.model("user", model.schemas.registerUser );
+
+    // Create register for current user
     const newUser = new user({
       name: req.body.name,
       email: req.body.email,
@@ -54,9 +79,11 @@ class RouterFunctions {
       status: false
     })
 
+    // Save user to db.
     newUser.save( err => {
       if( err ) throw "Error al guardar el usuario, error:" + err;
       
+      // Send confirmation email to email registrated.
       process.sendEmail( process.getTemplate("register.email",
         {
           "verify": newUser.verification_code,
@@ -71,8 +98,15 @@ class RouterFunctions {
     } )
   }
 
+  /**
+   * GET METHODS
+   * This section giving information about the all get methods in the application.
+   */
+
+  // RELPATH: /confirm-email ( GET )
+  // Get method for check if the URL sending to email registred is correct and valid.
   confirmEmail ( req, res ){
-    if (!req.query.verify) res.redirect('/register');
+    if ( ! requestHttp.getQuery(req, ["unique","verify"]) ) res.redirect('/register');
     let searchVerify = model.connection.model( "user", model.schemas.registerUser );
 
     searchVerify.findById(
@@ -80,18 +114,22 @@ class RouterFunctions {
       function(err, user){
         if ( err ) throw "Error al verificar el email en la base de datos, error:" + err;
 
-        if ( user.verification_code == requestHttp.getQuery( req, 'verify') ){
+        if ( user.verification_code == requestHttp.getQuery( req, 'verify') && ! user.status ){
           user.status = true;
           user.save( function( ){
             res.redirect('/login');
           } );
+        }else{
+          
         }
       }
     )
     
   }
 
-  closeSession( req, res ){
+  // RELPATH: /destroy-session
+  // Destroy current session
+  sessionDestroy( req, res ){
     req.session.destroy();
     res.redirect('/register');
   }

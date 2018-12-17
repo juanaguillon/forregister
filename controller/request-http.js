@@ -27,7 +27,7 @@ requestHttp.getQuery = function( req, querys ){
       }
     }
 
-    return fullQuerys;
+    return fullQuerys.size() > 0 ? true : false ;
 
   }else if ( querys.constructor == String ){
     // If the desirable query is only param.
