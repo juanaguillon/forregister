@@ -20,14 +20,14 @@ requestHttp.getQuery = function( req, querys ){
     for ( let i=0; i < querys.length; i++ ){
       // Make loop of every desirable query params
 
-      if ( req.query.querys[i] ){
+      if ( req.query[querys[i]] ){
         // Check if exists the current query param
 
         fullQuerys[ querys[i] ] = req.query[ querys[ i ]];
       }
     }
 
-    return fullQuerys.size() > 0 ? true : false ;
+    return Object.keys(fullQuerys).length > 0 ? true : false ;
 
   }else if ( querys.constructor == String ){
     // If the desirable query is only param.

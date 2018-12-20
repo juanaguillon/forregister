@@ -120,7 +120,7 @@ class RouterFunctions {
             res.redirect('/login');
           } );
         }else{
-          
+          res.redirect('/register');
         }
       }
     )

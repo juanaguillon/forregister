@@ -104,7 +104,7 @@ var register_metadata = function( form ){
    * @param {String} url The url 
    */
   this.ajaxSubmit = function( ){    
-    $('.load-register').addClass('active');
+    $('.load-register').removeClass('disabled').addClass('active');
     fetch( this.url, this.headers )
     .then( response => response.json() )
     .then( res => {

@@ -41,6 +41,11 @@ app.get('/register', routeFunctions.renderRegisterUser );
 app.get('/register-success',routeFunctions.renderRegisterSuccess )
 app.get('/confirm-email', routeFunctions.confirmEmail );
 
+// Login Routes
+app.get('/login', function( req, res ){
+  res.render('login');
+})
+
 // Session Routes
 app.get('/session-destroy', routeFunctions.sessionDestroy);
 
