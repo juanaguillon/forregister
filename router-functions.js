@@ -43,6 +43,19 @@ class RouterFunctions {
     }
   }
 
+  // RELPATH: /login
+  // Render template for login user.
+  // This only can be acces without a session.
+  // The rendered template form for login process.
+  renderLogin( req, res ){
+
+    if ( process.isSession() ){
+      return res.redirect('/private')
+    }
+
+    res.render('/login');    
+  }
+
   /**
    * POST METHODS
    * This section giving information about the all post methods in the applications.
@@ -53,12 +66,11 @@ class RouterFunctions {
   registerUser( req, res ){
     model.schemas.registerUser.pre('validate',function( next ){
       if (this.password == req.body['r-password'] && process.checkEmail(this.email) ){
-
         var query = user.findOne({ email: this.email }, "email")
         query.exec( function(err, doc){
           if ( err ) throw "Error en el servidor al crear usuario, error:" + err;
           if (doc != null) {
-            res.status(409).send({ stat: false, message: "Email ingresado no disponible" });
+            return res.json({ stat: false, message: "Email ingresado no disponible" });
           } else {
             next()
           }
@@ -98,6 +110,22 @@ class RouterFunctions {
     } )
   }
 
+  // RELPATH /login ( POST )
+  // The post method for check the login user.
+  login(req, res) {
+    if ( process.isSession( ) ){
+      return res.status(400).send({
+        stat: false,
+        message: "Ya existe una sesión en curso actualmente."
+      })
+      
+    }
+
+    let existingUser = model.connection.model("user", model.schemas.registerUser );
+
+    
+  }
+
   /**
    * GET METHODS
    * This section giving information about the all get methods in the application.
@@ -133,6 +161,7 @@ class RouterFunctions {
     req.session.destroy();
     res.redirect('/register');
   }
+
 
 }
 

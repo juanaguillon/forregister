@@ -42,9 +42,7 @@ app.get('/register-success',routeFunctions.renderRegisterSuccess )
 app.get('/confirm-email', routeFunctions.confirmEmail );
 
 // Login Routes
-app.get('/login', function( req, res ){
-  res.render('login');
-})
+app.get('/login', routeFunctions.renderLogin );
 
 // Session Routes
 app.get('/session-destroy', routeFunctions.sessionDestroy);

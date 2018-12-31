@@ -1,6 +1,6 @@
 const pug = require('pug');
 const mailer = require('nodemailer');
-
+const jwt = require('jwt-simple');
 
 class process{
 
@@ -82,6 +82,33 @@ class process{
    */  
   getUserId( req ){
     return req.session.userId;
+  }
+
+  /**
+   * Encrypt HASH64 code with JWT ( Json Web Tokens)
+   * @param {String|Object|Array|Number} payload The data will be encrypted
+   */
+  createToken( payload ){
+    return jwt.encode( payload );
+  }
+
+  /**
+   * Decode a JSON token. 
+   * @param {JSONToken} token 
+   */
+  decodeToken( token ){
+    return jwt.decode( token );
+  }
+
+  /**
+   * In so many cases, we need send a message to client when is necessary.
+   * This function allow to send the message to client easly.
+   * 
+   * @param {String} message The message that will be send to user
+   * @param {*} res The response object in the actually router
+   */
+  routerExit( message, res ){
+    res.send( message ).end()
   }
 
 }
