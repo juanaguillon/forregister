@@ -43,7 +43,7 @@ var getHost = function( ){
 }
 
 var sendLocation = function( url ){
-  window.location.href = `/${url}`;
+  location.href = url;
 }
 
 /**
