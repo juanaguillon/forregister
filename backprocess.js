@@ -1,6 +1,7 @@
 const pug = require('pug');
 const mailer = require('nodemailer');
 const jwt = require('jwt-simple');
+const bcrypt = require('bcryptjs');
 
 class process{
 
@@ -65,13 +66,23 @@ class process{
   }
 
   /**
-   * Check if exists the session acttually. Pass the Req param for search the session.
+   * Check if exists the session actually. Pass the Req param for search the session.
    * @param {Request} req The HTTP request
    * @type Boolean
    * @return True if exists the session
    */
   isSession( req ){
     if ( req.session.userId ) return true;
+  }
+
+  /**
+   * Start a session. If exists a session, non-returned.
+   * @param {Request} req The HTTP request 
+   * @param {String} userId The user id to start the session.
+   */
+  recordSession( req, userId ){
+    if ( this.isSession( req ) ) return;    
+    req.session.userId = userId;
   }
 
   /**
@@ -89,15 +100,25 @@ class process{
    * @param {String|Object|Array|Number} payload The data will be encrypted
    */
   createToken( payload ){
-    return jwt.encode( payload );
+    return jwt.encode( payload, 'SecretCodeJWT#' );
   }
 
   /**
    * Decode a JSON token. 
-   * @param {JSONToken} token 
+   * @param {JSONToken} token The token to decode
    */
   decodeToken( token ){
     return jwt.decode( token );
+  }
+  
+  /**
+   * Create a hash ( password )
+   * @param {String} pass A string to create the hash with it.
+   * @return {String} The password encoding with a hash
+   */
+  createHash(pass){
+    let salt = bcrypt.genSaltSync(10);
+    return bcrypt.hashSync( pass, salt );
   }
 
   /**
@@ -105,10 +126,14 @@ class process{
    * This function allow to send the message to client easly.
    * 
    * @param {String} message The message that will be send to user
-   * @param {*} res The response object in the actually router
+   * @param {Response} res The response object in the actually router
+   * @param {Number} status HTTP status to send.
    */
-  routerExit( message, res ){
-    res.send( message ).end()
+  routerExit( message, res, status = 409 ){
+    return res.status(status).send( {
+      stat: false,
+      message:message
+    } ).end()
   }
 
 }

@@ -20,17 +20,17 @@ class RouterFunctions {
   // Render template for register a user.
   renderRegisterUser( req, res ){
       res.render( 'register', {
-        title: "Registro de Usuario" , 
+        title: "Registro de Usuario" ,
         userId : process.getUserId( req )
       } );
   }
-  
+
   // RELPATH: /register-sucess
   // Render template for inform to user about the success register.
   // Only can access if exists the session
   renderRegisterSuccess ( req, res ){
     if ( req.session.userId && ! req.session.status ){
-      res.render('message', { 
+      res.render('message', {
         // Sending a template to render in message.pug view
         template: process.getTemplate('register-success.message', {
           email: req.session.email
@@ -49,11 +49,11 @@ class RouterFunctions {
   // The rendered template form for login process.
   renderLogin( req, res ){
 
-    if ( process.isSession() ){
+    if ( process.isSession( req ) ){
       return res.redirect('/private')
     }
 
-    res.render('/login');    
+    res.render('login');
   }
 
   /**
@@ -66,13 +66,14 @@ class RouterFunctions {
   registerUser( req, res ){
     model.schemas.registerUser.pre('validate',function( next ){
       if (this.password == req.body['r-password'] && process.checkEmail(this.email) ){
-        var query = user.findOne({ email: this.email }, "email")
+        var query = user.findOne({ email: this.email }, "email");
         query.exec( function(err, doc){
           if ( err ) throw "Error en el servidor al crear usuario, error:" + err;
           if (doc != null) {
-            return res.json({ stat: false, message: "Email ingresado no disponible" });
+            return res.json({ stat: false, message: "Email si" });
           } else {
-            next()
+            return res.json({ stat: false, message: "Email ingresado no disponible" });
+            // next()
           }
         } )
       }
@@ -80,33 +81,36 @@ class RouterFunctions {
 
     // Create model for save user.
     const user = model.connection.model("user", model.schemas.registerUser );
-
-    // Create register for current user
-    const newUser = new user({
+    let porpUser = {
       name: req.body.name,
       email: req.body.email,
       lastname: req.body.lastname,
-      password: req.body.password,
-      verification_code: Math.floor( Math.random() * 99999999999 ) + 10000000000,
+      password: process.createHash( req.body.password),
+      verification_code: Math.floor(Math.random() * 99999999999) + 10000000000,
       status: false
-    })
+    }
+    // Create register for current user
+    const newUser = new user( porpUser )
+    
 
     // Save user to db.
     newUser.save( err => {
+
+      console.log("yes");
       if( err ) throw "Error al guardar el usuario, error:" + err;
-      
       // Send confirmation email to email registrated.
       process.sendEmail( process.getTemplate("register.email",
         {
           "verify": newUser.verification_code,
           "userId": newUser._id
-        }
+        } 
       ) , newUser.email );
 
       req.session.userId = newUser._id;
       req.session.email = newUser.email;
       req.session.status = newUser.status;
-      res.status(200).send({stat: true});
+      
+      return res.json({stat: true});
     } )
   }
 
@@ -114,16 +118,40 @@ class RouterFunctions {
   // The post method for check the login user.
   login(req, res) {
     if ( process.isSession( ) ){
-      return res.status(400).send({
-        stat: false,
-        message: "Ya existe una sesión en curso actualmente."
-      })
+      process.routerExit("Ya existe una sesión en curso actualmente.", res, 400);
+    }else if ( ! req.body.email || ! req.body.password ){
+      // If not send a email | password to search in query
+      if (!req.body.email) {
+        process.routerExit("No se enviado ningun email a buscar", res) 
+      }else{
+        process.routerExit("No se enviado ninguna constraseña a buscar", res) 
+      }
       
     }
 
+    // Select the model to search the exisiting user.
     let existingUser = model.connection.model("user", model.schemas.registerUser );
+    existingUser.findOne(
+      {
+        email: req.body.email
+      }, 
+      function( err, document ){
 
-    
+        if ( err ){
+          process.routerExit("Error de servidor. Intente nuevamente", res, 500 )
+        }
+
+        if ( document != null ){
+          let password = req.body.password;
+          let savedPassword = process.decodeToken(document.password);
+
+          if ( password == savedPassword ){
+            process.recordSession( req, document._id );
+            res.redirect('/private');
+          }
+        }
+      }
+    )
   }
 
   /**
@@ -134,6 +162,7 @@ class RouterFunctions {
   // RELPATH: /confirm-email ( GET )
   // Get method for check if the URL sending to email registred is correct and valid.
   confirmEmail ( req, res ){
+    
     if ( ! requestHttp.getQuery(req, ["unique","verify"]) ) res.redirect('/register');
     let searchVerify = model.connection.model( "user", model.schemas.registerUser );
 
@@ -152,7 +181,7 @@ class RouterFunctions {
         }
       }
     )
-    
+
   }
 
   // RELPATH: /destroy-session
