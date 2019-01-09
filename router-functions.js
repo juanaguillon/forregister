@@ -72,8 +72,7 @@ class RouterFunctions {
           if (doc != null) {
             return res.json({ stat: false, message: "Email si" });
           } else {
-            return res.json({ stat: false, message: "Email ingresado no disponible" });
-            // next()
+            next()
           }
         } )
       }
