@@ -122,6 +122,16 @@ class process{
   }
 
   /**
+   * Verify or compare a password with a hash.
+   * @param {String} pass The password to check if is the same as hash
+   * @param {BcryptHash} hash The hash to use with the password
+   * @return {Boolean} 
+   */
+  verifyHash ( pass, hash ){
+    return bcrypt.compareSync( pass, hash );
+  }
+
+  /**
    * In so many cases, we need send a message to client when is necessary.
    * This function allow to send the message to client easly.
    * 
