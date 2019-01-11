@@ -22,7 +22,7 @@
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4",
-    "reload": "^2.3.1"
+    "nodemon": "^1.18.7",
+    "reload": "^2.4.0"
   }
 }
