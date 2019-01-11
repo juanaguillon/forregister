@@ -64,17 +64,19 @@ class RouterFunctions {
   // RELPATH: /register ( POST )
   // Post method for register a user. Used in render register with ajax request.
   registerUser( req, res ){
-    model.schemas.registerUser.pre('validate',function( next ){
-      if (this.password == req.body['r-password'] && process.checkEmail(this.email) ){
-        var query = user.findOne({ email: this.email }, "email");
-        query.exec( function(err, doc){
-          if ( err ) throw "Error en el servidor al crear usuario, error:" + err;
+    model.schemas.registerUser.pre('validate', function (next) {
+
+      if ( process.verifyHash(req.body['r-password'], this.password)  && process.checkEmail(this.email)) {
+        user.findOne({ email: this.email }, "email", function( err, doc ){
+
+          if (err) throw "Error en el servidor al crear usuario, error:" + err;
           if (doc != null) {
-            return res.json({ stat: false, message: "Email si" });
+            return res.json({ stat: false, message: "El email ingresado no está disponible." });
           } else {
             next()
           }
-        } )
+        });   
+        
       }
     });
 
@@ -84,7 +86,7 @@ class RouterFunctions {
       name: req.body.name,
       email: req.body.email,
       lastname: req.body.lastname,
-      password: process.createHash( req.body.password),
+      password: process.createHash(req.body.password),
       verification_code: Math.floor(Math.random() * 99999999999) + 10000000000,
       status: false
     }
@@ -95,7 +97,6 @@ class RouterFunctions {
     // Save user to db.
     newUser.save( err => {
 
-      console.log("yes");
       if( err ) throw "Error al guardar el usuario, error:" + err;
       // Send confirmation email to email registrated.
       process.sendEmail( process.getTemplate("register.email",

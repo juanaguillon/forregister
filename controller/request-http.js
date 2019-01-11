@@ -12,7 +12,7 @@ let requestHttp = {}
  * Get a query params by url ( /any-url?variable=valueVariable )
  * Passed by string as only or array for get multiples querys.
  * @param {Request} req The HTTP Request
- * @param {String} query Query params by GET HTTP Methot that want to obtain.
+ * @param {String|Array} querys Query params by GET HTTP Methot that want to obtain.
  */
 requestHttp.getQuery = function( req, querys ){
   if ( querys.constructor == Array ){
