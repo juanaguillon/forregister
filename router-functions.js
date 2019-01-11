@@ -64,6 +64,7 @@ class RouterFunctions {
   // RELPATH: /register ( POST )
   // Post method for register a user. Used in render register with ajax request.
   registerUser( req, res ){
+
     model.schemas.registerUser.pre('validate', function (next) {
 
       if ( process.verifyHash(req.body['r-password'], this.password)  && process.checkEmail(this.email)) {
@@ -116,8 +117,8 @@ class RouterFunctions {
 
   // RELPATH /login ( POST )
   // The post method for check the login user.
-  login(req, res) {
-    if ( process.isSession( ) ){
+  loginUser(req, res) {
+    if ( process.isSession( req ) ){
       process.routerExit("Ya existe una sesión en curso actualmente.", res, 400);
     }else if ( ! req.body.email || ! req.body.password ){
       // If not send a email | password to search in query
@@ -142,13 +143,17 @@ class RouterFunctions {
         }
 
         if ( document != null ){
+          if ( ! document.status ) process.routerExit('Debes verificar tu cuenta primero.', res)
           let password = req.body.password;
-          let savedPassword = process.decodeToken(document.password);
 
-          if ( password == savedPassword ){
+          if ( process.verifyHash(password, document.password) ){
             process.recordSession( req, document._id );
             res.redirect('/private');
+          }else{
+            process.routerExit('Usuario o contraseña incorrecta', res)
           }
+        }else{
+          process.routerExit('Usuario o contraseña incorrecta', res)
         }
       }
     )

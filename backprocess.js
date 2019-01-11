@@ -72,7 +72,7 @@ class process{
    * @return True if exists the session
    */
   isSession( req ){
-    if ( req.session.userId ) return true;
+    if ( req.session === undefined && res.session.userId ) return true;
   }
 
   /**
@@ -140,7 +140,7 @@ class process{
    * @param {Number} status HTTP status to send.
    */
   routerExit( message, res, status = 409 ){
-    return res.status(status).send( {
+    res.status(status).send( {
       stat: false,
       message:message
     } ).end()

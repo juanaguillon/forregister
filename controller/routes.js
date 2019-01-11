@@ -36,6 +36,7 @@ app.set('port', process.env.PORT || 3000 );
 
 //  Register Routes
 app.post('/register', routeFunctions.registerUser );
+app.post('/login', routeFunctions.loginUser );
 
 app.get('/register', routeFunctions.renderRegisterUser );
 app.get('/register-success',routeFunctions.renderRegisterSuccess )
