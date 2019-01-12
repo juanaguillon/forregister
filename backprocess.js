@@ -146,6 +146,13 @@ class process{
     } ).end()
   }
 
+  routerSucess( res, status = 200, message = "" ){
+    res.status(status).send({
+      stat: true,
+      message: message
+    }).end()
+  }
+
 }
 
 

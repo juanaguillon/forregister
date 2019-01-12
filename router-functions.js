@@ -19,6 +19,7 @@ class RouterFunctions {
   // RELPATH: /register
   // Render template for register a user.
   renderRegisterUser( req, res ){
+      console.log( req.session )
       res.render( 'register', {
         title: "Registro de Usuario" ,
         userId : process.getUserId( req )
@@ -69,15 +70,18 @@ class RouterFunctions {
 
       if ( process.verifyHash(req.body['r-password'], this.password)  && process.checkEmail(this.email)) {
         user.findOne({ email: this.email }, "email", function( err, doc ){
-
+          // console.log( doc );
           if (err) throw "Error en el servidor al crear usuario, error:" + err;
           if (doc != null) {
-            return res.json({ stat: false, message: "El email ingresado no está disponible." });
+            return process.routerExit("El email ingresado no está disponible.", res );
           } else {
             next()
           }
         });   
         
+      }else{
+        console.log( "Error line 83")
+        next('Error en ka verificación de datos')
       }
     });
 
@@ -111,7 +115,7 @@ class RouterFunctions {
       req.session.email = newUser.email;
       req.session.status = newUser.status;
       
-      return res.json({stat: true});
+      return process.routerSucess( res )
     } )
   }
 
@@ -123,9 +127,9 @@ class RouterFunctions {
     }else if ( ! req.body.email || ! req.body.password ){
       // If not send a email | password to search in query
       if (!req.body.email) {
-        process.routerExit("No se enviado ningun email a buscar", res) 
+        return process.routerExit("No se enviado ningun email a buscar", res) 
       }else{
-        process.routerExit("No se enviado ninguna constraseña a buscar", res) 
+        return process.routerExit("No se enviado ninguna constraseña a buscar", res) 
       }
       
     }
@@ -139,21 +143,22 @@ class RouterFunctions {
       function( err, document ){
 
         if ( err ){
-          process.routerExit("Error de servidor. Intente nuevamente", res, 500 )
+          return process.routerExit("Error de servidor. Intente nuevamente", res, 500 )
         }
 
         if ( document != null ){
-          if ( ! document.status ) process.routerExit('Debes verificar tu cuenta primero.', res)
+          if ( ! document.status ) return process.routerExit('Debes verificar tu cuenta primero.', res)
           let password = req.body.password;
 
           if ( process.verifyHash(password, document.password) ){
-            process.recordSession( req, document._id );
+            // process.recordSession( req, document._id );
+            req.session.userId = document._id;
             res.redirect('/private');
           }else{
-            process.routerExit('Usuario o contraseña incorrecta', res)
+            return process.routerExit('Usuario o contraseña incorrecta', res)
           }
         }else{
-          process.routerExit('Usuario o contraseña incorrecta', res)
+          return process.routerExit('Usuario o contraseña incorrecta', res)
         }
       }
     )
