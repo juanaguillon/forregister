@@ -17,6 +17,8 @@ let requestHttp = {}
 requestHttp.getQuery = function( req, querys ){
   if ( querys.constructor == Array ){
     let fullQuerys = {} ;
+    let sizeQuerys = Object.keys( querys ).length;
+
     for ( let i=0; i < querys.length; i++ ){
       // Make loop of every desirable query params
 
@@ -27,7 +29,7 @@ requestHttp.getQuery = function( req, querys ){
       }
     }
 
-    return Object.keys(fullQuerys).length > 0 ? true : false ;
+    return Object.keys(fullQuerys).length == sizeQuerys ? fullQuerys : false ;
 
   }else if ( querys.constructor == String ){
     // If the desirable query is only param.

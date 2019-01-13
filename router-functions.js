@@ -80,8 +80,7 @@ class RouterFunctions {
         });   
         
       }else{
-        console.log( "Error line 83")
-        next('Error en ka verificación de datos')
+        next()
       }
     });
 
@@ -172,7 +171,6 @@ class RouterFunctions {
   // RELPATH: /confirm-email ( GET )
   // Get method for check if the URL sending to email registred is correct and valid.
   confirmEmail ( req, res ){
-    
     if ( ! requestHttp.getQuery(req, ["unique","verify"]) ) res.redirect('/register');
     let searchVerify = model.connection.model( "user", model.schemas.registerUser );
 
