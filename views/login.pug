@@ -1,1 +1,18 @@
-h1 Hello! Login here
+<!DOCTYPE html>
+html(lang="en")
+  head
+    include globals/head.pug
+    link(rel="stylesheet", href="/publics/css/login.css")
+  body
+    include globals/menu.pug
+    .ui.container.text.login_container
+      .ui.segment.raised
+        form#login_form.ui.form( method="post")
+          .field 
+            label Email
+            input(type="text", name="email")
+          .field
+            label Contraseña
+            input(type="password", name="password")
+          .field
+            input.ui.button.primary(type="submit", value="Ingresar")

@@ -100,6 +100,7 @@ var checkRegex = function (value, regex) {
  * Create a HTML structure
  * 
  * @param {Object} attrs: Attributes of element, send key as attr, and val as value attr. 
+ * @param {String | HTML } doc Intern document in the created html.
  * @param {String} element: Default is Div
  */
 var createHtml = function (attrs, doc, element = "div") {

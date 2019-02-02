@@ -19,7 +19,6 @@ class RouterFunctions {
   // RELPATH: /register
   // Render template for register a user.
   renderRegisterUser( req, res ){
-      console.log( req.session )
       res.render( 'register', {
         title: "Registro de Usuario" ,
         userId : process.getUserId( req )
@@ -54,7 +53,7 @@ class RouterFunctions {
       return res.redirect('/private')
     }
 
-    res.render('login');
+    res.render('login', {title:'Ingresar Usuario'});
   }
 
   /**
@@ -65,24 +64,6 @@ class RouterFunctions {
   // RELPATH: /register ( POST )
   // Post method for register a user. Used in render register with ajax request.
   registerUser( req, res ){
-
-    model.schemas.registerUser.pre('validate', function (next) {
-
-      if ( process.verifyHash(req.body['r-password'], this.password)  && process.checkEmail(this.email)) {
-        user.findOne({ email: this.email }, "email", function( err, doc ){
-          // console.log( doc );
-          if (err) throw "Error en el servidor al crear usuario, error:" + err;
-          if (doc != null) {
-            return process.routerExit("El email ingresado no está disponible.", res );
-          } else {
-            next()
-          }
-        });   
-        
-      }else{
-        next()
-      }
-    });
 
     // Create model for save user.
     const user = model.connection.model("user", model.schemas.registerUser );
@@ -97,7 +78,21 @@ class RouterFunctions {
     // Create register for current user
     const newUser = new user( porpUser )
     
-
+    newUser.validateSync( function( ){
+      if ( process.verifyHash(req.body['r-password'], newUser.password) && process.checkEmail(newUser.email)) {
+        let existingUser = user.findOne({ email: newUser.email }, "email");
+        existingUser.exec(function (err, doc) {
+          if (err) throw "Error en el servidor al crear usuario, error:" + err;
+          if (doc != null) {
+            return process.routerExit("El email ingresado no está disponible.", res);
+          } else {
+            next()
+          }
+        });
+      }
+    });
+    
+    
     // Save user to db.
     newUser.save( err => {
 
@@ -171,7 +166,9 @@ class RouterFunctions {
   // RELPATH: /confirm-email ( GET )
   // Get method for check if the URL sending to email registred is correct and valid.
   confirmEmail ( req, res ){
-    if ( ! requestHttp.getQuery(req, ["unique","verify"]) ) res.redirect('/register');
+    if ( ! requestHttp.getQuery(req, ["unique","verify"]) ){ 
+      res.redirect('/register');
+    }
     let searchVerify = model.connection.model( "user", model.schemas.registerUser );
 
     searchVerify.findById(
