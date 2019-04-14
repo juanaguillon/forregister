@@ -140,14 +140,14 @@ class process{
    * @param {Number} status HTTP status to send.
    */
   routerExit( message, res, status = 409 ){
-    res.status(status).send( {
+    return res.status(status).send( {
       stat: false,
       message:message
     } ).end()
   }
 
   routerSucess( res, status = 200, message = "" ){
-    res.status(status).send({
+    return res.status(status).send({
       stat: true,
       message: message
     }).end()

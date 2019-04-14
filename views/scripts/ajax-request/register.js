@@ -1,5 +1,5 @@
 var registerMetadata = new register_metadata('register_form');
-registerMetadata.url = '/register';
+registerMetadata.url = '/register-form';
 
 registerMetadata.setHeaders({
   headers: {
